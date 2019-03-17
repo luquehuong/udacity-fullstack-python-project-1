@@ -14,12 +14,12 @@ def execute_query(query):
         )
         cur = db.cursor()
         cur.execute(query)
-        db.close()
         return cur.fetchall()
     except Exception as e:
         print("[ERROR]", e)
         raise e
-
+    finally:
+        db.close()
 
 # 1. What are the most popular three articles of all time?
 query1 = '''select ar.title ,count(lg.id) as views from log lg, articles ar
@@ -71,7 +71,7 @@ def question_3(query):
     results = execute_query(query)
     print('3. Days with more than 1% of request that lead to an error:')
     for result in results:
-        print('%s - %s %' % (result[0], result[1]))
+        print('%s - %s%%' % (result[0], result[1]))
     print('\n')
 
 
